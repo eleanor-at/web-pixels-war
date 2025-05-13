@@ -4,7 +4,7 @@ const PIXEL_URL = "https://pixels-war.oie-lab.net"
 
 // c'est sans doute habile de commencer avec la carte de test
 // const MAP_ID = "0000"
-let MAP_ID = "TEST"; // La carte par défaut
+let MAP_ID = "0000"; // La carte par défaut
 
 document.addEventListener("DOMContentLoaded", () => {
 
