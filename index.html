@@ -83,9 +83,9 @@
             const url = `${adresse}/api/v1/${carte}/set/${id}/${col}/${li}/${r}/${g}/${b}`;
             console.log("Set URL:", url);
 
-            try {
-                await fetch(url, { method: "POST", credentials: "include" });
-            } 
+            
+            await fetch(url, { method: "POST", credentials: "include" });
+            
         });
     });
 
