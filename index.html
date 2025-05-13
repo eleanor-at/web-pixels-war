@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang = fr>
+    <head>
+        <meta charset= "UTF-8" />
+        <meta name="viewport" content = "width=device-width, initial-scale=1.0"/>
+        <title> Pixel Wars </title>
+        
+       
+
+        <style>
+            .container {
+                height: 100vh;
+                display: flex;
+                flex-direction:column;
+                justify-content: center;
+                align-items:center;
+            }
+
+            .map{
+                display:grid;
+                grid-template-columns: repeat(3,10px);
+                grid-template-rows: repeat(3,10px);
+            }
+
+            .pixel{
+                width:10px;
+                height: 10px;
+                border: 1px solid black
+            }
+        </style>
+ 
+    </head>
+
+    <body>
+        <div class = "container">
+            <div class = "header"> 
+                <input type="text" name = "adresse" id="adresse" value="https://pixels-war.oie-lab.net">
+                <input type="text" name="carte" id = "carte" value ="TEST">
+            </div>
+
+            <div class = "map" id="map"> 
+                <div class="pixel"></div>
+                <div class="pixel"></div>
+                <div class="pixel"></div>
+                <div class="pixel"></div>
+                <div class="pixel"></div>
+                <div class="pixel"></div>
+                <div class="pixel"></div>
+                <div class="pixel"></div>
+                <div class="pixel"></div>
+            </div>
+            <div class ="footer">
+                <input type = "color" name = "couleur" id="couleur" value="#FF0000">
+
+        </div> 
+    </body>
+
+    <script>
+        const adresse = document.querySelector("#adresse").value;
+        const carte = document.querySelector("#carte").value;
+        const couleur = document.querySelector("#couleur").value;
+        console.log({adresse, carte, couleur});
+        mapElement = document.querySelector("#map")
+
+
+
+        async function preinit() 
+        {
+            const res  = await fetch(`${adresse}/api/v1/${carte}/preinit`,  {credentials : "include"});
+            
+            const {key} = await res.json();
+            console.log(key);
+            init(key);
+        }
+        
+
+        async function init(key) 
+        {
+            const res  = await fetch(`${adresse}/api/v1/${carte}/init?key=${key}`,  {credentials : "include"});
+            
+            const {id, nx, ny, timeout, data} = await res.json();
+            let contenu = ""
+            for(let col = 0; col< nx; col++) {
+
+            for (let li = 0; li< ny; li++)
+        {
+            const [r,g,b] = data[li][col]
+            contenu += `<div class = "pixel" id = "l${li}_c${col}" style = "background-color : rgb(${r}, ${g}, ${b})"> </div>`;
+        }}
+        console.log(contenu);
+        mapElement.innerHTML = contenu;
+        mapElement.style.gridTemplateColumns = `repeat(${nx}, 10px)`;
+        mapElement.style.gridTemplateRows = `repeat(${ny}, 10px)`;
+    setInterval(() => deltas(id), 1000);
+        }
+
+       
+preinit()
+
+
+        async function deltas(id) 
+        {
+            const res  = await fetch(`${adresse}/api/v1/${carte}/deltas?id=${id}`,  {credentials : "include"});
+            
+            const {deltas} = await res.json();
+            for (const [x,y,r,g,b] of deltas)
+        {
+            const pixel = document.querySelector(`#l${y}_c${x}`);
+            pixel.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+            console.log("delta", delta);
+        }
+        }
+
+   //creer une fonction qui permet, en cliquant sur un pixel, de changer sa couleur, addEventListenerOnClick
+   //convertir hexadecimal en nombre pour API
+   //rendre page jolie
+       
+
+
+
+
+       
+
+        
+
+
+
+      
+    </script>
+    </body>
+</html>

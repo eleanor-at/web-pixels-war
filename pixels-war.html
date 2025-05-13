@@ -1,33 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="fr">
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pixel War ue22-p23</title>
-    <link rel="stylesheet" href="./pixels-war.css" />
-    <script src="./pixels-war.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixel War</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #map {
+            display: grid;
+            margin-top: 20px;
+            gap: 1px;
+        }
+
+        .pixel {
+            width: 10px;
+            height: 10px;
+            cursor: pointer;
+        }
+
+        #controls {
+            margin-bottom: 20px;
+        }
+
+        #colorpicker {
+            width: 80px;
+            height: 30px;
+        }
+    </style>
 </head>
-
 <body>
-    <div id="connect-dialog">
-        <span>
-            <label for="baseurl">url:</label>
-            <input id="baseurl" type="text">
-        </span>
-        <span>
-            <label for="mapid">map:</label>
-            <input id="mapid" type="text" value="0000">
-        </span>
-        <!-- <button type="submit">Connect</button> -->
+
+    <h1>Pixel War</h1>
+
+    <!-- Section de configuration de la carte -->
+    <div id="controls">
+        <label for="baseurl">URL de base :</label>
+        <input type="text" id="baseurl" readonly><br><br>
+
+        <label for="mapid">ID de la carte :</label>
+        <input type="text" id="mapid"><br><br>
+
+        <button id="refresh">Rafraîchir la carte</button><br><br>
+
+        <label for="colorpicker">Choisir une couleur :</label>
+        <input type="color" id="colorpicker">
     </div>
 
-    <div id="grid">
-    </div>
-    <div id="controls">
-        <label for="colorpicker">Couleur :</label>
-        <input id="colorpicker" type="color" value="#000000" title="Choisis ta couleur">
-        <button type="button" class="btn btn-primary" id="refresh">Rafraîchir</button>
-    </div>
+    <!-- Grille de pixels -->
+    <div id="map"></div>
+
+    <script src="pixel-war.js"></script>
 </body>
+</html>
