@@ -4,7 +4,7 @@ const PIXEL_URL = "https://pixels-war.oie-lab.net"
 
 // c'est sans doute habile de commencer avec la carte de test
 // const MAP_ID = "0000"
-let MAP_ID = "0000"; // La carte par défaut
+let MAP_ID = "TEST"; // La carte par défaut
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -84,6 +84,8 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(data => {
                 console.log('Pixel coloré:', data); //on affiche la nouvelle figure
             });
+
+        refresh(user_id);
     }
 
     // À compléter puis à attacher au bouton refresh en passant mon id une fois récupéré
