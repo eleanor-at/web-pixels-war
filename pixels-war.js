@@ -8,17 +8,17 @@ let MAP_ID = "TEST"; // La carte par défaut
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    const PREFIX = `${PIXEL_URL}/api/v1/${MAP_ID}`
+    const PREFIX = `${PIXEL_URL}/api/v1/${MAP_ID}`;
     let user_id = null;
 
     // pour savoir à quel serveur / carte on s'adresse
     // on les affiche en dur
     // pour l'instant on ne peut pas y toucher depuis l'interface
     // il faut recharger la page pour changer de carte
-    document.getElementById("baseurl").value = PIXEL_URL
-    document.getElementById("mapid").value = MAP_ID
-    document.getElementById("baseurl").readOnly = true
-    document.getElementById("mapid").readOnly = true
+    document.getElementById("baseurl").value = PIXEL_URL;
+    document.getElementById("mapid").value = MAP_ID;
+    document.getElementById("baseurl").readOnly = true;
+    document.getElementById("mapid").readOnly = true;
 
     document.getElementById("mapid").addEventListener('change', () => {
         MAP_ID = document.getElementById("mapid").value;  
@@ -27,10 +27,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function init() { 
         const PREFIX = `${PIXEL_URL}/api/v1/${MAP_ID}`;  // Mettre à jour le PREFIX ici
-        fetch(`${PREFIX}/preinit`, {credentials: "include"})
+        fetch(`${PREFIX}/preinit`, { credentials: "include" })
             .then((response) => response.json())
             .then((json) => {
-                console.log(json)
+                console.log(json);
                 //TODO: maintenant que j'ai le json de preinit, je peux initialiser ma grille
 
                 const { nx, ny, data } = json;
@@ -44,7 +44,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 }
 
-               
                 //TODO: maintenant que j'ai le JSON, afficher la grille, et récupérer l'id
 
                 document.querySelector("#map").innerHTML = contenu;
@@ -68,8 +67,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 pixels.forEach(pixel => {
                     pixel.addEventListener("click", handlePixelClick);  // Ajout de l'événement de clic
                 }); 
-
             })
+            
     }
 
     function handlePixelClick(event) {
@@ -83,7 +82,8 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(response => response.json())
             .then(data => {
                 console.log('Pixel coloré:', data); //on affiche la nouvelle figure
-            });
+            })
+            .catch(error => console.error("Erreur lors de la coloration :", error));
 
         refresh(user_id);
     }
@@ -91,22 +91,22 @@ document.addEventListener("DOMContentLoaded", () => {
     // À compléter puis à attacher au bouton refresh en passant mon id une fois récupéré
     function refresh(user_id) {
         const PREFIX = `${PIXEL_URL}/api/v1/${MAP_ID}`;  // Mettre à jour PREFIX ici
-        fetch(`${PREFIX}/deltas?id=${user_id}`, {credentials: "include"})
+        fetch(`${PREFIX}/deltas?id=${user_id}`, { credentials: "include" })
             .then((response) => response.json())
             .then((json) => {
                 //TODO: maintenant que j'ai le json des deltas, mettre à jour les pixels qui ont changé.
                 // "Here be dragons" : comment récupérer le bon div ?
 
                 const { deltas } = json;
-                    deltas.forEach(([x, y, r, g, b]) => {
-                        const pixel = document.querySelector(`#l${y}_c${x}`);
-                        if (pixel) {
-                            pixel.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
-                        }
-                    });
-                })
-
-            }
+                deltas.forEach(([x, y, r, g, b]) => {
+                    const pixel = document.querySelector(`#l${y}_c${x}`);
+                    if (pixel) {
+                        pixel.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+                    }
+                });
+            })
+            .catch(error => console.error("Erreur lors du rafraîchissement :", error));
+    }
         
     // Petite fonction facilitatrice pour récupérer la couleur cliquée en RGB
     function getPickedColorInRGB() {
@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
     //TODO: pour les avancés: ça pourrait être utile de pouvoir
     // choisir la couleur à partir d'un pixel ?
 
-};
+});
 
 // dans l'autre sens, pour mettre la couleur d'un pixel dans le color picker
 // (le color picker insiste pour avoir une couleur en hexadécimal...)
@@ -142,14 +142,14 @@ function pickColorFrom(div) {
     // plutôt que de prendre div.style.backgroundColor
     // dont on ne connait pas forcément le format
     // on utilise ceci qui retourne un 'rgb(r, g, b)'
-    const bg = window.getComputedStyle(div).backgroundColor
+    const bg = window.getComputedStyle(div).backgroundColor;
     // on garde les 3 nombres dans un tableau de chaines
-    const [r, g, b] = bg.match(/\d+/g)
+    const [r, g, b] = bg.match(/\d+/g);
     // on les convertit en hexadécimal
-    const rh = parseInt(r).toString(16).padStart(2, '0')
-    const gh = parseInt(g).toString(16).padStart(2, '0')
-    const bh = parseInt(b).toString(16).padStart(2, '0')
-    const hex = `#${rh}${gh}${bh}`
+    const rh = parseInt(r).toString(16).padStart(2, '0');
+    const gh = parseInt(g).toString(16).padStart(2, '0');
+    const bh = parseInt(b).toString(16).padStart(2, '0');
+    const hex = `#${rh}${gh}${bh}`;
     // on met la couleur dans le color picker
-    document.getElementById("colorpicker").value = hex
+    document.getElementById("colorpicker").value = hex;
 }
