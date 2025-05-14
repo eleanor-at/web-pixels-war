@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Pixel Wars</title>
+    <link rel="stylesheet" href="pixel-war.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+
+
     <style>
         .container {
             height: 100vh;
@@ -11,36 +15,116 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            
+            background: linear-gradient(-45deg, #ff9ff3, #d33950, #dbbf6f);
+            background-size: 400% 400%;
+            animation: gradientAnim 5s ease infinite;
         }
+
+
+        @keyframes gradientAnim {
+        0% {
+            background-position: 0% 50%;
+            }
+        50% {
+            background-position: 100% 50%;
+            }
+        100% {
+            background-position: 0% 50%;
+            }
+}
         .map {
             display: grid;
             grid-template-columns: repeat(3, 10px);
             grid-template-rows: repeat(3, 10px);
+           
         }
         .pixel {
             width: 10px;
             height: 10px;
-            border: 1px solid black;
+            border: 2px solid rgb(197, 112, 184);
+            box-shadow: 4px 4px 6px 
+            salmon;
+
         }
+
+        .barbie_title{
+        color: #f6eef1;                
+        border-radius: 10px;           
+        font-family: 'Dancing Script', cursive;
+
+        text-align: center;
+        font-size: 3rem; 
+        font-style: italic;
+
+        }
+
+
+        #adresse {
+        width: 100%;
+        max-width: 400px;
+        padding: 10px 5px;
+        font-size: 1.3rem;
+        text-align: center;
+        font-style: italic;
+        background-color: #bd3b57;
+        border: 2px solid transparent;
+        color: #d7bedc;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        font-family: 'Dancing Script', cursive;
+        }
+
+        #adresse:hover {
+        border-color: #d08683; 
+        box-shadow: 0 0 5px #a748fb;  }
+
+        #carte{
+        width: 100%;
+        max-width: 400px;
+        padding: 10px 5px;
+        font-size: 1rem;
+        text-align: center;
+        background-color: #e18198;
+        border: 2px solid transparent;
+        color: #d7bedc;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        font-family: 'Dancing Script', cursive;
+        }
+
+
+        #carte:hover {
+        border-color: #dabebd; 
+        box-shadow: 0 0 5px #a748fb;  }
+
     </style>
 </head>
 
 <body>
+    
+
     <div class="container">
-        <div class="header">
-            <!-- Adresse du serveur -->
-            <input type="text" name="adresse" id="adresse" value="https://pixels-war.oie-lab.net">
-            <!-- ID de la carte -->
-            <input type="text" name="carte" id="carte" value="TEST">
+        <div class="barbie_title">
+        Vote for the color of Barbie's dress
         </div>
+        
+       
 
         <div class="map" id="map">
+            
             <!-- Pixels seront générés dynamiquement -->
         </div>
 
         <div class="footer">
             <!-- Sélecteur de couleur -->
-            <input type="color" name="couleur" id="couleur" value="#FF0000">
+            <input type="color" name="couleur" id="couleur" value="#bd3b77">
+        </div>
+
+        <div class="header">
+            
+            <!-- Adresse du serveur -->
+            <input type="text" name="adresse" id="adresse" value="https://pixels-war.oie-lab.net">
+            <!-- ID de la carte -->
+            <input type="text" name="carte" id="carte" value="TEST">
         </div>
     </div>
 
