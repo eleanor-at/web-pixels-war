@@ -52,8 +52,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 const mapElement = document.querySelector("#map");
                 mapElement.style.gridTemplateColumns = `repeat(${nx}, 10px)`;
                 mapElement.style.gridTemplateRows = `repeat(${ny}, 10px)`;
-
-                user_id = json.id;
+//test avec id obtenu 
+                user_id = "00D8AEBB6498CA7CAE131DB2B807ED35";
                 console.log(user_id);
                 
                 //TODO: maintenant que j'ai l'id, attacher la fonction refresh(id), à compléter, au clic du bouton refresh
