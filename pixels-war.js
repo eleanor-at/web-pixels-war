@@ -54,6 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 mapElement.style.gridTemplateRows = `repeat(${ny}, 10px)`;
 
                 user_id = json.id;
+                console.log(user_id);
                 
                 //TODO: maintenant que j'ai l'id, attacher la fonction refresh(id), à compléter, au clic du bouton refresh
 
@@ -69,8 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 pixels.forEach(pixel => {
                     pixel.addEventListener("click", handlePixelClick);  // Ajout de l'événement de clic
                 }); 
-            })
-            .catch(error => console.error("Erreur lors de l'initialisation :", error));
+            });
     }
 
     function handlePixelClick(event) {
@@ -82,9 +82,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const url = `${getPrefix()}/set/${user_id}/${col}/${li}/${r}/${g}/${b}`;
         fetch(url, { method: 'POST', credentials: "include" })
             .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
                 return response.json();
             })
             .then(data => {
@@ -98,10 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // À compléter puis à attacher au bouton refresh en passant mon id une fois récupéré
     function refresh(user_id) {
-        if (!user_id) {
-            console.error("User ID non défini !");
-            return;
-        }
+        
 
         fetch(`${getPrefix()}/deltas?id=${user_id}`, { credentials: "include" })
             .then((response) => {
