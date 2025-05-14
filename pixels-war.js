@@ -8,7 +8,6 @@ let MAP_ID = "TEST"; // La carte par défaut
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    const PREFIX = `${PIXEL_URL}/api/v1/${MAP_ID}`;
     let user_id = null;
 
     // pour savoir à quel serveur / carte on s'adresse
@@ -25,9 +24,12 @@ document.addEventListener("DOMContentLoaded", () => {
         init();  
     });
 
+    function getPrefix() {
+        return `${PIXEL_URL}/api/v1/${MAP_ID}`;
+    }
+
     function init() { 
-        const PREFIX = `${PIXEL_URL}/api/v1/${MAP_ID}`;  // Mettre à jour le PREFIX ici
-        fetch(`${PREFIX}/preinit`, { credentials: "include" })
+        fetch(`${getPrefix()}/preinit`, { credentials: "include" })
             .then((response) => response.json())
             .then((json) => {
                 console.log(json);
@@ -68,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     pixel.addEventListener("click", handlePixelClick);  // Ajout de l'événement de clic
                 }); 
             })
-            
+            .catch(error => console.error("Erreur lors de l'initialisation :", error));
     }
 
     function handlePixelClick(event) {
@@ -77,22 +79,37 @@ document.addEventListener("DOMContentLoaded", () => {
         const [li, col] = id.match(/\d+/g).map(Number);  //on extrait les indices
         const [r, g, b] = getPickedColorInRGB();  // on peut récupérer la couleur sélectionnée
     
-        const url = `${PREFIX}/set/${user_id}/${col}/${li}/${r}/${g}/${b}`;
+        const url = `${getPrefix()}/set/${user_id}/${col}/${li}/${r}/${g}/${b}`;
         fetch(url, { method: 'POST', credentials: "include" })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
                 console.log('Pixel coloré:', data); //on affiche la nouvelle figure
+                pixel.style.backgroundColor = `rgb(${r}, ${g}, ${b})`; // Met à jour la couleur localement
             })
             .catch(error => console.error("Erreur lors de la coloration :", error));
 
-        refresh(user_id);
+        
     }
 
     // À compléter puis à attacher au bouton refresh en passant mon id une fois récupéré
     function refresh(user_id) {
-        const PREFIX = `${PIXEL_URL}/api/v1/${MAP_ID}`;  // Mettre à jour PREFIX ici
-        fetch(`${PREFIX}/deltas?id=${user_id}`, { credentials: "include" })
-            .then((response) => response.json())
+        if (!user_id) {
+            console.error("User ID non défini !");
+            return;
+        }
+
+        fetch(`${getPrefix()}/deltas?id=${user_id}`, { credentials: "include" })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then((json) => {
                 //TODO: maintenant que j'ai le json des deltas, mettre à jour les pixels qui ont changé.
                 // "Here be dragons" : comment récupérer le bon div ?
