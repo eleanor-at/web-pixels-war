@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const pixels = document.querySelectorAll('.pixel');
                 pixels.forEach(pixel => {
-                    pixel.addEventListener("click", handlePixelClick);  // Ajout de l'événement de clic
+                    pixel.addEventListener("click", handlePixelClick);  // changement à chaque clic
                 }); 
             });
     }
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
             })
             .then(data => {
                 console.log('Pixel coloré:', data); //on affiche la nouvelle figure
-                pixel.style.backgroundColor = `rgb(${r}, ${g}, ${b})`; // Met à jour la couleur localement
+                pixel.style.backgroundColor = `rgb(${r}, ${g}, ${b})`; 
             })
             .catch(error => console.error("Erreur lors de la coloration :", error));
 
@@ -116,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 });
             })
-            .catch(error => console.error("Erreur lors du rafraîchissement :", error));
+            
     }
         
     // Petite fonction facilitatrice pour récupérer la couleur cliquée en RGB
